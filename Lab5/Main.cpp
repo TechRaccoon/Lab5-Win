@@ -8,7 +8,7 @@
 // Clean up any dynamically allocated memory before finishing
 int main()
 {	
-	// a pointer to our linked list of employees.
+	// a pointer to our linked list of employees.dd
 	Employee* pEmployees = nullptr;
 
 	bool exitMainMenu{ false };		// init to default value

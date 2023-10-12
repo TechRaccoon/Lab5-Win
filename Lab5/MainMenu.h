@@ -20,7 +20,7 @@ struct Employee {
 	Employee* pNext;
 };
 
-// A struct used to return multiple return values from the getNodeInfo() function.
+// A struct used to return multiple return values from the getNodeInfo() function.d
 // getNodeInfo() traverses the list looking for a target node (and its parent node).
 // NodeInfo contains info needed to facilitate node insertion & deletion in the list.
 struct NodeInfo {
@@ -79,7 +79,7 @@ void viewEmployees(Employee* pHead);
 // - param 1: a string - the employee's name.
 // - return: a pointer to the dynamically allocated Employee struct 
 // TODO ------------------------------------------------------------------------
-//createEmployee();
+Employee* createEmployee(std::string name);
 
 
 // Create a new employee node, then add it to the list
@@ -91,7 +91,7 @@ void viewEmployees(Employee* pHead);
 // - param 2: a string - the employee's name.
 // - return: nothing
 // TODO ------------------------------------------------------------------------
-//addNewEmployee(Employee*& pHead);
+void addNewEmployee(Employee*& pHead, const std::string name);
 
 
 // Search through the list for a node with the given id.  
@@ -105,7 +105,7 @@ void viewEmployees(Employee* pHead);
 //           If node not found, pointers inside NodeInfo should both be nullptr.
 //           If node is first in the list, NodeInfo.pParent should be nullptr.
 // TODO ------------------------------------------------------------------------
-// getNodeInfo(Employee* pHead);
+NodeInfo getNodeInfo(Employee* pHead, int id);
 
 
 // Removes an employee node with the given id from the list.
@@ -123,7 +123,7 @@ void viewEmployees(Employee* pHead);
 // - param 2: an int (the id of the employee we're searching for). 
 // - return: nothing
 // TODO ------------------------------------------------------------------------
-//removeEmployee(Employee*& pHead);
+void removeEmployee(Employee*& pHead, int id);
 
 
 

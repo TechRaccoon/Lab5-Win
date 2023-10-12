@@ -3,6 +3,7 @@
 #include "MainMenu.h"
 
 
+
 // clear any characters from the (keyboard) input buffer
 void ignoreLine() {
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -125,7 +126,6 @@ void viewEmployees(Employee* pHead) {
 			current = current->pNext;
 		}
 	}
-	current = nullptr;
 }
 
 
@@ -144,6 +144,7 @@ Employee* createEmployee(std::string name) {
 	static int idCount{ 0 };
 	Employee* emp = new Employee{ idCount,name,nullptr };
 	idCount++;
+	return emp;
 }
 
 
@@ -156,7 +157,17 @@ Employee* createEmployee(std::string name) {
 // - param 2: a string - the employee's name.
 // - return: nothing
 // TODO ------------------------------------------------------------------------
-//addNewEmployee(Employee*& pHead);
+void addNewEmployee(Employee*& pHead, const std::string name) {
+	Employee* currentEmp{ createEmployee(name) };
+	if (pHead) {
+		currentEmp->pNext = pHead;
+		pHead = currentEmp;
+	}
+	else {
+		pHead = currentEmp;
+	};
+
+};
 
 
 // Search through the list for a node with the given id.  
@@ -170,11 +181,25 @@ Employee* createEmployee(std::string name) {
 //           If node not found, pointers inside NodeInfo should both be nullptr.
 //           If node is first in the list, NodeInfo.pParent should be nullptr.
 // TODO ------------------------------------------------------------------------
-// getNodeInfo(Employee* pHead);
+NodeInfo getNodeInfo(Employee* pHead, int id) {
+	if (!pHead) std::cout << "empty list." << '\n'; //check the nullprt method
+	else {
+		Employee* current = pHead;
+		Employee* parent = nullptr;
+		while (current) {
+			if (current->id == id) {
+				return NodeInfo{ current, parent };;
+			}
+			parent = current;
+			current = current->pNext;
+		}
+	}
+	return NodeInfo{ nullptr, nullptr };
+};
 
 
 // Removes an employee node with the given id from the list.
-// Try to find a node with the given id (use getNodeInfo()). 
+// Try to find a node with the given id (use getNodeInfo()). f
 //	1) If node not found, output "Error: employee id:# not found\n". 
 //  2) If node found, but parent is nullptr, the node is first in the list:
 //			-Set the pHead to point to the second node in the list.
@@ -188,6 +213,27 @@ Employee* createEmployee(std::string name) {
 // - param 2: an int (the id of the employee we're searching for). 
 // - return: nothing
 // TODO ------------------------------------------------------------------------
-//removeEmployee(Employee*& pHead);
+void removeEmployee(Employee*& pHead, int id) {
+	NodeInfo toDetele{ getNodeInfo(pHead, id) };
+	if (!toDetele.pNode) {
+		std::cout << "Error: employee id:"<<id<<" not found "<<'\n'; //not found
+	}
+	else {   // we found the node to delete!
+		
+		if (!toDetele.pParent) {  // it is the first node
+			pHead = toDetele.pNode->pNext;
+			std::cout << "removed id:" << id << '\n';
+
+		}
+		else {  // it is later in the lists
+
+		}
+		delete toDetele.pNode;
+		toDetele.pNode = nullptr;
+	}
+
+
+
+}
 
 

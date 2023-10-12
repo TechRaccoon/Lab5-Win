@@ -6,7 +6,7 @@
 //#ifdef TEST_SUITE
 //namespace TestSuite {
 //
-//	// This method displays a condensed version of the list on a single line.
+//	// This method displays a condensed version of the list on a single line.s
 //	// It is intended to be used for testing.
 //	// The field displayed in the list elements is the name field:
 //	// eg: [3]->[5]-#    // "3" and "5" are the actual names.  
