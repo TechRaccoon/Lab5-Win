@@ -9,8 +9,11 @@
 
 #include <string>
 
+//A static int variable to control the id of the employees added to the the list 
+static int idCount{ 0 };
+
 // A command set of operations that can be used with our Menu.
-enum class Command{ viewEmployees, addEmployee, removeEmployee, exit, invalid };
+enum class Command{ viewEmployees, addEmployee, removeEmployee, removeAllEmployees, exit, invalid };
 
 // a struct to represent an Employee (each instance forms a node of a linked list
 // used to store employees.
@@ -43,7 +46,7 @@ Command getMenuCommand();
 // Given a Command, this will determine the appropriate function to call.
 // - param 1: (given) a pointer to the front of the list of employees (passed by reference)
 // - param 2: a Command (enum) representing the action to be taken.
-void handleMenuInput(Employee*& pHead, Command command);
+void handleMenuInput(Employee*& pHead, const Command command);
 
 
 // =============================================================================
@@ -105,7 +108,7 @@ void addNewEmployee(Employee*& pHead, const std::string name);
 //           If node not found, pointers inside NodeInfo should both be nullptr.
 //           If node is first in the list, NodeInfo.pParent should be nullptr.
 // TODO ------------------------------------------------------------------------
-NodeInfo getNodeInfo(Employee* pHead, int id);
+NodeInfo getNodeInfo(Employee* pHead, const int id);
 
 
 // Removes an employee node with the given id from the list.
@@ -123,9 +126,9 @@ NodeInfo getNodeInfo(Employee* pHead, int id);
 // - param 2: an int (the id of the employee we're searching for). 
 // - return: nothing
 // TODO ------------------------------------------------------------------------
-void removeEmployee(Employee*& pHead, int id);
+void removeEmployee(Employee*& pHead, const int id);
 
-
+void removeAllEmployees(Employee*& pHead);
 
 
 #endif

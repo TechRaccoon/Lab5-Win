@@ -36,6 +36,7 @@ void displayMainMenu()
 	std::cout << "1) View Employees\n";
 	std::cout << "2) Add Employee\n";
 	std::cout << "3) Remove Employee\n";
+	std::cout << "4) Remove All Employees\n";
 	std::cout << "0) Exit\n";
 	std::cout << "-------------\n";
 	std::cout << "Select:";
@@ -59,6 +60,7 @@ Command getMenuCommand() {
 	case 1: command = Command::viewEmployees; break;
 	case 2: command = Command::addEmployee; break;
 	case 3: command = Command::removeEmployee; break;
+	case 4: command = Command::removeAllEmployees; break;
 	case 0: command = Command::exit; break;
 	}
 	return command;
@@ -68,7 +70,7 @@ Command getMenuCommand() {
 // It determines what action to take depending on the menuItemSelected, 
 // and calls the appropriate function.
 // Returns true the selection was a request to exit menu, false otherwise.
-void handleMenuInput(Employee*& pHead, Command command)
+void handleMenuInput(Employee*& pHead, const Command command)
 {
 	switch (command)
 	{
@@ -81,13 +83,17 @@ void handleMenuInput(Employee*& pHead, Command command)
 		std::cout << "Enter name:";
 		std::string name;
 		std::getline(std::cin, name);
-		//addNewEmployee(pHead, name);
+		addNewEmployee(pHead, name);
 	}
 							 break;
 	case Command::removeEmployee:
 		std::cout << ">> Remove Employee:\n";
 		std::cout << "Enter id:";
-		//removeEmployee(pHead, getIntFromUser());
+		removeEmployee(pHead, getIntFromUser());
+		break;
+	case Command::removeAllEmployees:
+		std::cout << ">> Remove Employee:\n";
+		removeAllEmployees(pHead);
 		break;
 	case Command::exit:
 		std::cout << "Exiting\n";
@@ -122,7 +128,8 @@ void viewEmployees(Employee* pHead) {
 	if (!pHead) std::cout << "empty list."<<'\n'; //check the nullprt method
 	else {
 		while (current) {
-			std::cout << current->id << '\n';
+			std::cout <<"id: " << current->id <<", ";
+			std::cout <<"name: " << current->name << '\n';
 			current = current->pNext;
 		}
 	}
@@ -141,7 +148,6 @@ void viewEmployees(Employee* pHead) {
 // - return: a pointer to the dynamically allocated Employee struct 
 // TODO ------------------------------------------------------------------------
 Employee* createEmployee(std::string name) {
-	static int idCount{ 0 };
 	Employee* emp = new Employee{ idCount,name,nullptr };
 	idCount++;
 	return emp;
@@ -181,7 +187,7 @@ void addNewEmployee(Employee*& pHead, const std::string name) {
 //           If node not found, pointers inside NodeInfo should both be nullptr.
 //           If node is first in the list, NodeInfo.pParent should be nullptr.
 // TODO ------------------------------------------------------------------------
-NodeInfo getNodeInfo(Employee* pHead, int id) {
+NodeInfo getNodeInfo(Employee* pHead, const int id) {
 	if (!pHead) std::cout << "empty list." << '\n'; //check the nullprt method
 	else {
 		Employee* current = pHead;
@@ -213,7 +219,7 @@ NodeInfo getNodeInfo(Employee* pHead, int id) {
 // - param 2: an int (the id of the employee we're searching for). 
 // - return: nothing
 // TODO ------------------------------------------------------------------------
-void removeEmployee(Employee*& pHead, int id) {
+void removeEmployee(Employee*& pHead, const int id) {
 	NodeInfo toDetele{ getNodeInfo(pHead, id) };
 	if (!toDetele.pNode) {
 		std::cout << "Error: employee id:"<<id<<" not found "<<'\n'; //not found
@@ -225,15 +231,18 @@ void removeEmployee(Employee*& pHead, int id) {
 			std::cout << "removed id:" << id << '\n';
 
 		}
-		else {  // it is later in the lists
-
+		else {  // the node was found after the head
+			toDetele.pParent->pNext = toDetele.pNode->pNext;
 		}
-		delete toDetele.pNode;
-		toDetele.pNode = nullptr;
+		delete toDetele.pNode; //release the memory of the tarjet node 
+		toDetele.pNode = nullptr; //set the pointer to null
 	}
-
-
-
 }
 
 
+void removeAllEmployees(Employee*& pHead) {
+	while (pHead) {
+		removeEmployee(pHead, pHead->id);
+	}
+	idCount = 0;
+}
